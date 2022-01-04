@@ -3,5 +3,7 @@ import 'screens/splash.dart';
 
 void main() {
   runApp(const SaveMoneyApp());
+  
+  
 }
 

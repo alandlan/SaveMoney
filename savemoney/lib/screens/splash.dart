@@ -16,7 +16,7 @@ class SaveMoneyApp extends StatelessWidget {
         splash: Image.asset('assets/images/walletMoney.jpg'),
         duration: 3000,
         splashTransition: SplashTransition.fadeTransition,
-        nextScreen: const ResumePage(title: "Save Money",)
+        nextScreen: ResumePage()
         ,),
     );
   }
