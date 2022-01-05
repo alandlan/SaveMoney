@@ -5,7 +5,7 @@ class Transactions {
   final int typeId;
   final String name;
   final double value;
-  //final DateTime date;
+  final String dateTransaction;
 
-  Transactions(this.id,this.typeId,this.name,this.value);
+  Transactions(this.id,this.typeId,this.name,this.value,this.dateTransaction);
 }

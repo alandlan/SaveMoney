@@ -11,14 +11,14 @@ class TransactionDao{
   static const String _typeId = 'typeId';
   static const String _name = 'name';
   static const String _value = 'value';
-  //static const String _date = 'date';
+  static const String _dateTransaction = 'dateTransaction';
 
   static const String tableSql = 'CREATE TABLE $_tableName ('
         '$_id INTEGER PRIMARY KEY, '
         '$_typeId INTEGER, '
         '$_name VARCHAR(100), '
         '$_value DECIMAL(9,2), '
-        //'$_date DATETIME,'
+        '$_dateTransaction DATETIME, '
         'FOREIGN KEY(typeId) REFERENCES TransactionType(id))';
 
   Future<int> save(Transactions transaction) async {
@@ -32,7 +32,7 @@ class TransactionDao{
     transactionMap[_typeId] = transaction.typeId;
     transactionMap[_name] = transaction.name;
     transactionMap[_value] = transaction.value;
-    //transactionMap[_date] = transaction.date;
+    transactionMap[_dateTransaction] = transaction.dateTransaction;
     return transactionMap;
   }
 
@@ -52,12 +52,14 @@ class TransactionDao{
         row[_typeId],
         row[_name],
         row[_value],
-        //row[_date],
+        row[_dateTransaction],
       );
       types.add(caracter);
     }
     return types;
   }
+
+  
 
   Future<void> removeAll() async {
     var databasesPath = await getDatabasesPath();

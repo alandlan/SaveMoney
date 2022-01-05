@@ -1,51 +1,34 @@
 import 'package:flutter/material.dart';
-import 'package:savemoney/database/dao/transactionType_dao.dart';
 import 'package:savemoney/database/dao/transaction_dao.dart';
 
-import 'package:savemoney/models/TransactionType.dart';
 import 'package:savemoney/models/Transactions.dart';
-import 'package:sqflite/sqflite.dart';
 
 class ResumePage extends StatelessWidget {
 
-  final TransactionTypeDao _dao = TransactionTypeDao();
-  final TransactionDao _dao2 = TransactionDao();
-
-  final List<Transactions> transactions = [];
-
+  final TransactionDao _transactionDao = TransactionDao();
+  
   @override
   Widget build(BuildContext context) {
 
-    _dao.save(TransactionType(0,"Salario",1));
-  
-    //_dao.findAll().then((value) => { value.map((e) => print(e.name)) });
+    //_transactionDao.save(Transactions(0,1,'Janeiro',1000.0,"2021-01-01"));
 
-    _dao2.save(Transactions(0,1,"Janeiro",1000.0));
-
-    //_dao2.findAll().then((value) => { value.map((e) => print(e.name)) });
-    
-    transactions.add(Transactions(0,1,"Teste",1000));
-    transactions.add(Transactions(0,1,"Teste",1000));
-    transactions.add(Transactions(0,1,"Teste",1000));
-    transactions.add(Transactions(0,1,"Teste",1000));
-    transactions.add(Transactions(0,1,"Teste",1000));
-    transactions.add(Transactions(0,1,"Teste",1000));
-    transactions.add(Transactions(0,1,"Teste",1000));
-    transactions.add(Transactions(0,1,"Teste",1000));
-    transactions.add(Transactions(0,1,"Teste",1000));
-    transactions.add(Transactions(0,1,"Teste",1000));
-    transactions.add(Transactions(0,1,"Teste",1000));
-    
     return Scaffold(
       appBar: AppBar(
-        title: Text("Save Money"),
-        
-      ),body: ListView.builder(
-        itemBuilder: (context,index){
-          final Transactions transaction = transactions[index];
-          return _TransactionItem(transaction);
+        title: Text("Save Money"),        
+      ),
+      body: FutureBuilder(
+        future: _transactionDao.findAll(),
+        builder: (context,snapshot) {
+          List<Transactions> transactions = [];
+          if(snapshot.hasData){ transactions = snapshot.data as List<Transactions>;}
+          return ListView.builder(
+            itemBuilder: (context,index){
+              final Transactions transaction = transactions[index];
+              return _TransactionItem(transaction);
+            },
+            itemCount: transactions.length
+          );
         },
-        itemCount: transactions.length,
       ),
     );
   }
