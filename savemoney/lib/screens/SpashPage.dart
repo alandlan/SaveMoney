@@ -18,7 +18,7 @@ class SpashPage extends StatelessWidget {
         splash: Image.asset('assets/images/walletMoney.jpg'),
         duration: 3000,
         splashTransition: SplashTransition.fadeTransition,
-        nextScreen: TransactionTypeCreate() //MainPage()
+        nextScreen: MainPage()
         ,),
     );
   }

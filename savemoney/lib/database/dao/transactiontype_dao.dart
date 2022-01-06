@@ -66,4 +66,19 @@ class TransactionTypeDao {
 
     await database.close();
   }
+
+  Future<void> dropTable() async {
+    var databasesPath = await getDatabasesPath();
+    String path = join(databasesPath, 'savemoney.db');
+
+    Database database = await openDatabase(
+      path,
+      version: 1,
+      onOpen: (db) {
+        db.rawQuery('DROP TABLE $_tableName');
+      },
+    );
+
+    await database.close();
+  }
 }
