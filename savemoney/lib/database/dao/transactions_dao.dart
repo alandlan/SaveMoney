@@ -5,21 +5,22 @@ import 'package:sqflite/sqflite.dart';
 
 import '../app_database.dart';
 
-class TransactionDao{
+class TransactionsDao{
   static const String _tableName = 'Transactions';
   static const String _id = 'id';
-  static const String _typeId = 'typeId';
   static const String _name = 'name';
   static const String _value = 'value';
+  //static const String _type = 'type';
+  static const String _account = 'account';
   static const String _dateTransaction = 'dateTransaction';
 
   static const String tableSql = 'CREATE TABLE $_tableName ('
         '$_id INTEGER PRIMARY KEY, '
-        '$_typeId INTEGER, '
         '$_name VARCHAR(100), '
         '$_value DECIMAL(9,2), '
-        '$_dateTransaction DATETIME, '
-        'FOREIGN KEY(typeId) REFERENCES TransactionType(id))';
+        //'$_type VARCHAR(100), '
+        '$_account VARCHAR(100), '
+        '$_dateTransaction DATETIME )';
 
   Future<int> save(Transactions transaction) async {
     final Database db = await getDatabase();
@@ -29,9 +30,10 @@ class TransactionDao{
 
   Map<String, dynamic> _toMap(Transactions transaction) {
     final Map<String, dynamic> transactionMap = Map();
-    transactionMap[_typeId] = transaction.typeId;
     transactionMap[_name] = transaction.name;
     transactionMap[_value] = transaction.value;
+    //transactionMap[_type] = transaction.type;
+    transactionMap[_account] = transaction.account;
     transactionMap[_dateTransaction] = transaction.dateTransaction;
     return transactionMap;
   }
@@ -49,14 +51,23 @@ class TransactionDao{
     for (Map<String, dynamic> row in result) {
       final Transactions caracter = Transactions(
         row[_id],
-        row[_typeId],
         row[_name],
-        row[_value],
+        getDouble(row[_value]),
+        //row[_type],
+        row[_account],
         row[_dateTransaction],
       );
       types.add(caracter);
     }
     return types;
+  }
+
+  static double getDouble(dynamic value) {
+    if (value is String) {
+      return double.parse(value);
+    } else {
+      return value.toDouble();
+    }
   }
 
   

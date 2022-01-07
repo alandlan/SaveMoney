@@ -1,10 +1,20 @@
 import 'package:flutter/material.dart';
+import 'package:savemoney/database/dao/account_dao.dart';
+import 'package:savemoney/models/Account.dart';
 
-import 'package:savemoney/models/Transactions.dart';
 import 'package:savemoney/screens/Account/Index.dart';
-import 'package:savemoney/screens/TransactionType/Index.dart';
+import 'package:savemoney/screens/Transactions/Index.dart';
+import 'package:savemoney/widgets/loading.dart';
+import 'package:savemoney/widgets/withOutData.dart';
 
-class MainPage extends StatelessWidget {
+class MainPage extends StatefulWidget {
+  @override
+  State<MainPage> createState() => _MainPageState();
+}
+
+class _MainPageState extends State<MainPage> {
+  final AccountDao _dao = AccountDao();
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -13,21 +23,34 @@ class MainPage extends StatelessWidget {
       home: Scaffold(
           appBar: AppBar(
             backgroundColor: Colors.green,
-            title: Text("Save Money"),
+            title: Text("Dashboard Save Money"),
           ),
-          body: FutureBuilder(
-            //future: _transactionDao.findAll(),
+          body: FutureBuilder<List<Account>>(
+            initialData: [],
+            future: _dao.findAll(),
             builder: (context, snapshot) {
-              List<Transactions> transactions = [];
-              if (snapshot.hasData) {
-                transactions = snapshot.data as List<Transactions>;
+              switch (snapshot.connectionState) {
+                case ConnectionState.none:
+                  break;
+                case ConnectionState.waiting:
+                  return Loading();
+                case ConnectionState.active:
+                  break;
+                case ConnectionState.done:
+                  if (snapshot.data != null) {
+                    final List<Account> types = snapshot.data as List<Account>;
+                    return ListView.builder(
+                      itemBuilder: (context, index) {
+                        final Account type = types[index];
+                        return _AccountItem(type);
+                      },
+                      itemCount: types.length,
+                    );
+                  }
+                  return WithOutData("Sem fundos!");
               }
-              return ListView.builder(
-                  itemBuilder: (context, index) {
-                    final Transactions transaction = transactions[index];
-                    return _TransactionItem(transaction);
-                  },
-                  itemCount: transactions.length);
+
+              return Text("Erro");
             },
           ),
           drawer: Drawer(
@@ -62,37 +85,44 @@ class MainPage extends StatelessWidget {
                   subtitle: Text("Consultar transações"),
                   //trailing: Icon(Icons.arrow_forward),
                   onTap: () {
-                    debugPrint('toquei no drawer');
-                  }),
-              ListTile(
-                  leading: Icon(Icons.price_change_outlined),
-                  title: Text("Tipo de Transação"),
-                  subtitle: Text("Consultar tipo de Transação"),
-                  //trailing: Icon(Icons.arrow_forward),
-                  onTap: () {
                     Navigator.of(context).push(
                       MaterialPageRoute(
-                        builder: (context) => TransactionTypeIndex(),
+                        builder: (context) => TransactionsIndex(),
                       ),
                     );
                   }),
+              // ListTile(
+              //     leading: Icon(Icons.price_change_outlined),
+              //     title: Text("Tipo de Transação"),
+              //     subtitle: Text("Consultar tipo de Transação"),
+              //     //trailing: Icon(Icons.arrow_forward),
+              //     onTap: () {
+              //       Navigator.of(context).push(
+              //         MaterialPageRoute(
+              //           builder: (context) => TransactionTypeIndex(),
+              //         ),
+              //       );
+              //     }),
             ],
           ))),
     );
   }
 }
 
-class _TransactionItem extends StatelessWidget {
-  final Transactions transaction;
-
-  _TransactionItem(this.transaction);
+class _AccountItem extends StatelessWidget {
+  final Account account;
+  _AccountItem(this.account);
 
   @override
   Widget build(BuildContext context) {
     return Card(
       child: ListTile(
-        title: Text(transaction.name),
-        subtitle: Text(transaction.value.toString()),
+        title: Text(account.name),
+        subtitle: Text("Saldo: "+ account.balance.toStringAsFixed(2)),
+        trailing: Icon(
+          Icons.attach_money,
+          color: Colors.green,
+        ),
       ),
     );
   }

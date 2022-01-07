@@ -1,4 +1,3 @@
-// ignore: file_names
 import 'package:flutter/material.dart';
 import 'package:savemoney/database/dao/transactiontype_dao.dart';
 import 'package:savemoney/models/TransactionType.dart';
@@ -6,7 +5,6 @@ import 'package:savemoney/screens/TransactionType/Create.dart';
 import 'package:savemoney/widgets/IconTransaction.dart';
 
 class TransactionTypeIndex extends StatefulWidget {
-  //const TransactionTypeIndex({ Key? key }) : super(key: key);
 
   @override
   State<TransactionTypeIndex> createState() => _TransactionTypeIndexState();
@@ -17,9 +15,6 @@ class _TransactionTypeIndexState extends State<TransactionTypeIndex> {
 
   @override
   Widget build(BuildContext context) {
-    //_dao.removeAll();
-    //_dao.save(TransactionType(0,"MEI",0));
-    //_dao.findAll().then((value) => debugPrint(value.toString()));
 
     return Scaffold(
       appBar: AppBar(title: Text("Tipo de Transações")),
@@ -92,7 +87,7 @@ class _TransactionTypeItem extends StatelessWidget {
       child: ListTile(
         title: Text(type.name),
         subtitle: Text(type.credit == 1 ? 'Crédito' : 'Débito'),
-        trailing: IconTransaction(type.credit),
+        trailing: IconTransaction(type.credit == 1 ? true : false),
       ),
     );
   }

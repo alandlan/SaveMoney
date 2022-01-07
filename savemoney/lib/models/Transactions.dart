@@ -2,10 +2,11 @@
 
 class Transactions {
   final int id;
-  final int typeId;
   final String name;
   final double value;
+  //final String type;
+  final String account;
   final String dateTransaction;
 
-  Transactions(this.id,this.typeId,this.name,this.value,this.dateTransaction);
+  Transactions(this.id,this.name,this.value,this.account,this.dateTransaction);
 }
