@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:savemoney/database/dao/transactiontype_dao.dart';
 import 'package:savemoney/models/TransactionType.dart';
 import 'package:savemoney/screens/TransactionType/Create.dart';
+import 'package:savemoney/widgets/IconTransaction.dart';
 
 class TransactionTypeIndex extends StatefulWidget {
   //const TransactionTypeIndex({ Key? key }) : super(key: key);
@@ -42,15 +43,15 @@ class _TransactionTypeIndexState extends State<TransactionTypeIndex> {
               break;
             case ConnectionState.done:
               //if (snapshot.data != null) {
-                final List<TransactionType> types =
-                    snapshot.data as List<TransactionType>;
-                return ListView.builder(
-                  itemBuilder: (context, index) {
-                    final TransactionType type = types[index];
-                    return _TransactionTypeItem(type);
-                  },
-                  itemCount: types.length,
-                );
+              final List<TransactionType> types =
+                  snapshot.data as List<TransactionType>;
+              return ListView.builder(
+                itemBuilder: (context, index) {
+                  final TransactionType type = types[index];
+                  return _TransactionTypeItem(type);
+                },
+                itemCount: types.length,
+              );
               // }else{
               //   return Center(
               //     child: Column(
@@ -69,9 +70,11 @@ class _TransactionTypeIndexState extends State<TransactionTypeIndex> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          Navigator.of(context).push(MaterialPageRoute(
-            builder: (context) => TransactionTypeCreate(),
-          )).then((value) => setState(() {}));;
+          Navigator.of(context)
+              .push(MaterialPageRoute(
+                builder: (context) => TransactionTypeCreate(),
+              ))
+              .then((value) => setState(() {}));
         },
         child: Icon(Icons.plus_one),
       ),
@@ -92,19 +95,5 @@ class _TransactionTypeItem extends StatelessWidget {
         trailing: IconTransaction(type.credit),
       ),
     );
-  }
-}
-
-class IconTransaction extends StatelessWidget {
-  final int credito;
-
-  IconTransaction(this.credito);
-
-  @override
-  Widget build(BuildContext context) {
-    if (credito == 1)
-      return Icon(Icons.arrow_circle_up, color: Colors.green);
-    else
-      return Icon(Icons.arrow_circle_down, color: Colors.red);
   }
 }

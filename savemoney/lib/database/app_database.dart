@@ -1,5 +1,6 @@
 
 import 'package:path/path.dart';
+import 'package:savemoney/database/dao/account_dao.dart';
 import 'package:sqflite/sqflite.dart';
 
 import 'dao/transactionType_dao.dart';
@@ -21,6 +22,7 @@ Future<Database> getDatabase() async {
     onCreate: (db, version) {
       db.execute(TransactionTypeDao.tableSql);
       db.execute(TransactionDao.tableSql);
+      db.execute(AccountDao.tableSql);
     },
     version: 1,
     onDowngrade: onDatabaseDowngradeDelete,

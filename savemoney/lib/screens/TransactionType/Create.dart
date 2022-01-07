@@ -73,7 +73,7 @@ class _TransactionTypeCreateState extends State<TransactionTypeCreate> {
               ),
             ),
             ElevatedButton(
-              child: Text('Create'),
+              child: Text('Criar'),
               onPressed: () {
                 final String name = _nameController.text;
                 final int credito = _credito ? 1 : 0;

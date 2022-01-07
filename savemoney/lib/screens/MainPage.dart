@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:savemoney/models/Transactions.dart';
+import 'package:savemoney/screens/Account/Index.dart';
 import 'package:savemoney/screens/TransactionType/Index.dart';
 
 class MainPage extends StatelessWidget {
@@ -44,6 +45,18 @@ class MainPage extends StatelessWidget {
                 ),
               ),
               ListTile(
+                  leading: Icon(Icons.account_balance_outlined),
+                  title: Text("Saldos"),
+                  subtitle: Text("Consultar saldos"),
+                  //trailing: Icon(Icons.arrow_forward),
+                  onTap: () {
+                    Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (context) => AccountIndex(),
+                      ),
+                    );
+                  }),
+              ListTile(
                   leading: Icon(Icons.payments),
                   title: Text("Transação"),
                   subtitle: Text("Consultar transações"),
@@ -51,15 +64,6 @@ class MainPage extends StatelessWidget {
                   onTap: () {
                     debugPrint('toquei no drawer');
                   }),
-              // ListTile(
-              //   leading: Icon(Icons.attach_money),
-              //   title: Text("Transação"),
-              //   subtitle: Text("Cadastrar transação"),
-              //   //trailing: Icon(Icons.arrow_forward),
-              //   onTap: () {
-              //     debugPrint('toquei no drawer');
-              //   }
-              //  ),
               ListTile(
                   leading: Icon(Icons.price_change_outlined),
                   title: Text("Tipo de Transação"),
@@ -72,15 +76,6 @@ class MainPage extends StatelessWidget {
                       ),
                     );
                   }),
-              //  ListTile(
-              //    leading: Icon(Icons.price_check_outlined),
-              //    title: Text("Tipo de Transação"),
-              //    subtitle: Text("Cadastrar tipo de Transação"),
-              //    //trailing: Icon(Icons.arrow_forward),
-              //   onTap: () {
-              //     Navigator.pop(context);
-              //   }
-              //  )
             ],
           ))),
     );
