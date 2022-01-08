@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:savemoney/database/dao/transactions_dao.dart';
 import 'package:savemoney/models/Transactions.dart';
+import 'package:savemoney/screens/Transactions/Create.dart';
 import 'package:savemoney/widgets/IconTransaction.dart';
 import 'package:savemoney/widgets/withOutData.dart';
 
@@ -19,13 +20,9 @@ class _TransactionsIndexState extends State<TransactionsIndex> {
   @override
   Widget build(BuildContext context) {
 
-    final format = new DateFormat('dd-MM-yyyy');
-    final dateString = format.format(DateTime.now());
-    debugPrint(dateString);
+    //_dao.save(Transactions(0,"Salário",1000,"Corrente",dateString));
 
-    _dao.save(Transactions(0,"Salário",1000,"Corrente",dateString));
-
-    _dao.findAll().then((value) => debugPrint(value.toString()));
+    //_dao.findAll().then((value) => debugPrint(value.toString()));
 
     return Scaffold(
       appBar: AppBar(title: Text("Transações")),
@@ -68,11 +65,11 @@ class _TransactionsIndexState extends State<TransactionsIndex> {
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           debugPrint("Clicou");
-          // Navigator.of(context)
-          //     .push(MaterialPageRoute(
-          //       builder: (context) => TransactionTypeCreate(),
-          //     ))
-          //     .then((value) => setState(() {}));
+          Navigator.of(context)
+              .push(MaterialPageRoute(
+                builder: (context) => TransactionsCreate(),
+              ))
+              .then((value) => debugPrint("Voltou!"));
         },
         child: Icon(Icons.plus_one),
       ),

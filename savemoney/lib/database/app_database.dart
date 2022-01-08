@@ -20,7 +20,7 @@ Future<Database> getDatabase() async {
   return openDatabase(
     path,
     onCreate: (db, version) {
-      //db.execute(TransactionTypeDao.tableSql);
+      db.execute(TransactionTypeDao.tableSql);
       db.execute(AccountDao.tableSql);
       db.execute(TransactionsDao.tableSql);
     },

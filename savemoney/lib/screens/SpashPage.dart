@@ -1,6 +1,7 @@
 import 'package:animated_splash_screen/animated_splash_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:savemoney/screens/MainPage.dart';
+import 'package:savemoney/screens/Transactions/Create.dart';
 
 import 'TransactionType/Create.dart';
 
