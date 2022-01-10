@@ -154,8 +154,6 @@ class _TransactionsCreateState extends State<TransactionsCreate> {
                   final Transactions transaction =
                       Transactions(0, type, converter, account, date);
 
-                  debugPrint(transaction.toString());
-
                   service
                       .save(transaction)
                       .then((value) => Navigator.pop(context));

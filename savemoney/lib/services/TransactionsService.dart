@@ -28,7 +28,7 @@ class TransactionsService{
     //debugPrint(account.toString());
     //debugPrint(transaction.toString());
 
-    //await _transactionsDao.save(transaction);
+    await _transactionsDao.save(transaction);
     await _accountDao.updateBalance(account);
 
     return transaction;

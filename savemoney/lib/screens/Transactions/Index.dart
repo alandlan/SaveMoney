@@ -64,7 +64,6 @@ class _TransactionsIndexState extends State<TransactionsIndex> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          debugPrint("Clicou");
           Navigator.of(context)
               .push(MaterialPageRoute(
                 builder: (context) => TransactionsCreate(),
@@ -87,7 +86,7 @@ class _Transaction extends StatelessWidget {
       child: ListTile(
         title: Text(transaction.type),
         subtitle: Text('Valor: '+transaction.value.toString()+ ' Data: '+transaction.dateTransaction.toString()),
-        trailing: IconTransaction(transaction.value < 0 ? true : false),
+        trailing: IconTransaction(transaction.value < 0 ? false : true),
       ),
     );
   }
