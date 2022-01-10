@@ -55,7 +55,7 @@ class _TransactionsIndexState extends State<TransactionsIndex> {
                   itemCount: transactions.length,
                 );
               }
-              return WithOutData("Sem registros!"); 
+              return WithOutData("Sem transações!"); 
               
           }
 
@@ -69,7 +69,7 @@ class _TransactionsIndexState extends State<TransactionsIndex> {
               .push(MaterialPageRoute(
                 builder: (context) => TransactionsCreate(),
               ))
-              .then((value) => debugPrint("Voltou!"));
+              .then((value) => setState(() {}));
         },
         child: Icon(Icons.plus_one),
       ),
@@ -85,7 +85,7 @@ class _Transaction extends StatelessWidget {
   Widget build(BuildContext context) {
     return Card(
       child: ListTile(
-        title: Text(transaction.name),
+        title: Text(transaction.type),
         subtitle: Text('Valor: '+transaction.value.toString()+ ' Data: '+transaction.dateTransaction.toString()),
         trailing: IconTransaction(transaction.value < 0 ? true : false),
       ),

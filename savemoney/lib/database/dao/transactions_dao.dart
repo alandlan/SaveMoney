@@ -10,7 +10,7 @@ class TransactionsDao{
   static const String _id = 'id';
   static const String _name = 'name';
   static const String _value = 'value';
-  //static const String _type = 'type';
+  static const String _type = 'type';
   static const String _account = 'account';
   static const String _dateTransaction = 'dateTransaction';
 
@@ -18,7 +18,7 @@ class TransactionsDao{
         '$_id INTEGER PRIMARY KEY, '
         '$_name VARCHAR(100), '
         '$_value DECIMAL(9,2), '
-        //'$_type VARCHAR(100), '
+        '$_type VARCHAR(100), '
         '$_account VARCHAR(100), '
         '$_dateTransaction DATETIME )';
 
@@ -30,9 +30,9 @@ class TransactionsDao{
 
   Map<String, dynamic> _toMap(Transactions transaction) {
     final Map<String, dynamic> transactionMap = Map();
-    transactionMap[_name] = transaction.name;
+    //transactionMap[_name] = transaction.name;
+    transactionMap[_type] = transaction.type;
     transactionMap[_value] = transaction.value;
-    //transactionMap[_type] = transaction.type;
     transactionMap[_account] = transaction.account;
     transactionMap[_dateTransaction] = transaction.dateTransaction;
     return transactionMap;
@@ -51,9 +51,9 @@ class TransactionsDao{
     for (Map<String, dynamic> row in result) {
       final Transactions caracter = Transactions(
         row[_id],
-        row[_name],
+        //row[_name],
+        row[_type],
         getDouble(row[_value]),
-        //row[_type],
         row[_account],
         row[_dateTransaction],
       );

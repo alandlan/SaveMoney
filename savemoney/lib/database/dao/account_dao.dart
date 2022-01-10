@@ -9,6 +9,8 @@ class AccountDao{
   static const String _name = 'name';
   static const String _balance = 'balance';
 
+  //late Database db;
+
   static const String tableSql = 'CREATE TABLE $_tableName ('
     '$_id INTEGER PRIMARY KEY, '
     '$_name VARCHAR(100), '
@@ -55,5 +57,18 @@ class AccountDao{
     final List<Map<String, dynamic>> result = await db.query(_tableName);
     List<Account> accounts = _toList(result);
     return accounts;
+  }
+
+  Future<Account> findByName(String name) async {
+    final Database db = await getDatabase();
+    final List<Map<String, dynamic>> result = await db.query(_tableName,where: '$_name = ?', whereArgs: [name]);
+    Account account = _toList(result).first;
+    return account;
+  }
+
+  Future<int> updateBalance(Account account) async {
+    final Database db = await getDatabase();
+    final int id = await db.update(_tableName, _toMap(account), where: '$_name = ?', whereArgs: [account.name]);
+    return id;
   }
 }

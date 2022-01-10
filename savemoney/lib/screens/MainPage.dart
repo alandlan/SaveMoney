@@ -7,6 +7,8 @@ import 'package:savemoney/screens/Transactions/Index.dart';
 import 'package:savemoney/widgets/loading.dart';
 import 'package:savemoney/widgets/withOutData.dart';
 
+import 'TransactionType/Index.dart';
+
 class MainPage extends StatefulWidget {
   @override
   State<MainPage> createState() => _MainPageState();
@@ -17,6 +19,8 @@ class _MainPageState extends State<MainPage> {
 
   @override
   Widget build(BuildContext context) {
+    //dropTables().then((value) => debugPrint('Deletou'));
+
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       theme: ThemeData(primaryColor: Colors.green),
@@ -91,18 +95,18 @@ class _MainPageState extends State<MainPage> {
                       ),
                     );
                   }),
-              // ListTile(
-              //     leading: Icon(Icons.price_change_outlined),
-              //     title: Text("Tipo de Transação"),
-              //     subtitle: Text("Consultar tipo de Transação"),
-              //     //trailing: Icon(Icons.arrow_forward),
-              //     onTap: () {
-              //       Navigator.of(context).push(
-              //         MaterialPageRoute(
-              //           builder: (context) => TransactionTypeIndex(),
-              //         ),
-              //       );
-              //     }),
+              ListTile(
+                  leading: Icon(Icons.price_change_outlined),
+                  title: Text("Tipo de Transação"),
+                  subtitle: Text("Consultar tipo de Transação"),
+                  //trailing: Icon(Icons.arrow_forward),
+                  onTap: () {
+                    Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (context) => TransactionTypeIndex(),
+                      ),
+                    );
+                  }),
             ],
           ))),
     );

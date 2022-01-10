@@ -3,9 +3,9 @@ import 'package:savemoney/database/dao/transactiontype_dao.dart';
 import 'package:savemoney/models/TransactionType.dart';
 import 'package:savemoney/screens/TransactionType/Create.dart';
 import 'package:savemoney/widgets/IconTransaction.dart';
+import 'package:savemoney/widgets/withOutData.dart';
 
 class TransactionTypeIndex extends StatefulWidget {
-
   @override
   State<TransactionTypeIndex> createState() => _TransactionTypeIndexState();
 }
@@ -15,7 +15,6 @@ class _TransactionTypeIndexState extends State<TransactionTypeIndex> {
 
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
       appBar: AppBar(title: Text("Tipo de Transações")),
       body: FutureBuilder<List<TransactionType>>(
@@ -37,27 +36,19 @@ class _TransactionTypeIndexState extends State<TransactionTypeIndex> {
             case ConnectionState.active:
               break;
             case ConnectionState.done:
-              //if (snapshot.data != null) {
-              final List<TransactionType> types =
-                  snapshot.data as List<TransactionType>;
-              return ListView.builder(
-                itemBuilder: (context, index) {
-                  final TransactionType type = types[index];
-                  return _TransactionTypeItem(type);
-                },
-                itemCount: types.length,
-              );
-              // }else{
-              //   return Center(
-              //     child: Column(
-              //       mainAxisAlignment: MainAxisAlignment.center,
-              //       crossAxisAlignment: CrossAxisAlignment.center,
-              //       children: [Text("Nenhum item encontrado!")],
-              //     ),
-              //   );
-              // }
-
-              break;
+              if (snapshot.data != null) {
+                final List<TransactionType> types =
+                    snapshot.data as List<TransactionType>;
+                return ListView.builder(
+                  itemBuilder: (context, index) {
+                    final TransactionType type = types[index];
+                    return _TransactionTypeItem(type);
+                  },
+                  itemCount: types.length,
+                );
+              } else {
+                return WithOutData("Sem Tipos!");
+              }
           }
 
           return Text("Erro");

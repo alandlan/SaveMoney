@@ -28,3 +28,20 @@ Future<Database> getDatabase() async {
     onDowngrade: onDatabaseDowngradeDelete,
   );
 }
+
+Future<void> dropTables() async {
+  var databasesPath = await getDatabasesPath();
+  String path = join(databasesPath, 'savemoney.db');
+
+  Database database = await openDatabase(
+    path,
+    version: 1,
+    onOpen: (db) {
+      db.rawQuery('DROP TABLE Account');
+      db.rawQuery('DROP TABLE Transactions');
+      db.rawQuery('DROP TABLE TransactionType');
+    },
+  );
+
+  await database.close();
+}

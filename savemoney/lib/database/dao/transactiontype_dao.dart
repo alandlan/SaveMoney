@@ -1,4 +1,3 @@
-import 'package:path/path.dart';
 import 'package:savemoney/models/TransactionType.dart';
 import 'package:sqflite/sqflite.dart';
 
@@ -36,6 +35,13 @@ class TransactionTypeDao {
     return caracters;
   }
 
+  Future<TransactionType> findByName(String name) async {
+    final Database db = await getDatabase();
+    final List<Map<String, dynamic>> result = await db.query(_tableName,where: '$_name = ?', whereArgs: [name]);
+    TransactionType type = _toList(result).first;
+    return type;
+  }
+
   List<TransactionType> _toList(List<Map<String, dynamic>> result) {
     final List<TransactionType> types = [];
 
@@ -48,35 +54,5 @@ class TransactionTypeDao {
       types.add(caracter);
     }
     return types;
-  }
-
-  Future<void> removeAll() async {
-    var databasesPath = await getDatabasesPath();
-    String path = join(databasesPath, 'savemoney.db');
-
-    Database database = await openDatabase(
-      path,
-      version: 1,
-      onOpen: (db) {
-        db.rawQuery('DELETE FROM $_tableName');
-      },
-    );
-
-    await database.close();
-  }
-
-  Future<void> dropTable() async {
-    var databasesPath = await getDatabasesPath();
-    String path = join(databasesPath, 'savemoney.db');
-
-    Database database = await openDatabase(
-      path,
-      version: 1,
-      onOpen: (db) {
-        db.rawQuery('DROP TABLE $_tableName');
-      },
-    );
-
-    await database.close();
   }
 }
