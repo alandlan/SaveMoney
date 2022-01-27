@@ -16,6 +16,8 @@ class AccountDao{
     '$_name VARCHAR(100), '
     '$_balance DECIMAL(9,2) )';
 
+  static const String deleteTable = 'DELETE TABLE $_tableName';
+
   Map<String, dynamic> _toMap(Account account){
     final Map<String, dynamic> accountMap = Map();
     accountMap[_name] = account.name;

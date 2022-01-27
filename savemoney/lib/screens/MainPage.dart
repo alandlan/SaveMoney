@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:savemoney/database/app_database.dart';
 import 'package:savemoney/database/dao/account_dao.dart';
 import 'package:savemoney/models/Account.dart';
 
@@ -21,6 +22,8 @@ class _MainPageState extends State<MainPage> {
   Widget build(BuildContext context) {
     //dropTables().then((value) => debugPrint('Deletou'));
 
+    _dao.findAll().then((value) => debugPrint(value.toString()));
+
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       theme: ThemeData(primaryColor: Colors.green),
@@ -29,33 +32,36 @@ class _MainPageState extends State<MainPage> {
             backgroundColor: Colors.green,
             title: Text("Dashboard Save Money"),
           ),
-          body: FutureBuilder<List<Account>>(
-            initialData: [],
-            future: _dao.findAll(),
-            builder: (context, snapshot) {
-              switch (snapshot.connectionState) {
-                case ConnectionState.none:
-                  break;
-                case ConnectionState.waiting:
-                  return Loading();
-                case ConnectionState.active:
-                  break;
-                case ConnectionState.done:
-                  if (snapshot.data != null) {
-                    final List<Account> types = snapshot.data as List<Account>;
-                    return ListView.builder(
-                      itemBuilder: (context, index) {
-                        final Account type = types[index];
-                        return _AccountItem(type);
-                      },
-                      itemCount: types.length,
-                    );
-                  }
-                  return WithOutData("Sem fundos!");
-              }
-
-              return Text("Erro");
-            },
+          body: RefreshIndicator(
+            onRefresh: refreshList,
+            child: FutureBuilder<List<Account>>(
+              initialData: [],
+              future: _dao.findAll(),
+              builder: (context, snapshot) {
+                switch (snapshot.connectionState) {
+                  case ConnectionState.none:
+                    break;
+                  case ConnectionState.waiting:
+                    return Loading();
+                  case ConnectionState.active:
+                    break;
+                  case ConnectionState.done:
+                    if (snapshot.data != null) {
+                      final List<Account> types = snapshot.data as List<Account>;
+                      return ListView.builder(
+                        itemBuilder: (context, index) {
+                          final Account type = types[index];
+                          return _AccountItem(type);
+                        },
+                        itemCount: types.length,
+                      );
+                    }
+                    return WithOutData("Sem fundos!");
+                }
+          
+                return Text("Erro");
+              },
+            ),
           ),
           drawer: Drawer(
               child: ListView(
@@ -107,9 +113,33 @@ class _MainPageState extends State<MainPage> {
                       ),
                     );
                   }),
+                ListTile(
+                  leading: Icon(Icons.restore_from_trash),
+                  title: Text("Limpar Dados"),
+                  subtitle: Text("Limpa todos os dados."),
+                  //trailing: Icon(Icons.arrow_forward),
+                  onTap: () async {
+                    
+                    debugPrint('drop');
+                    await deleteTables();
+                    //debugPrint('delay');
+                    // Future.delayed(Duration(seconds: 5), () => {
+                      
+                      
+                    //   getDatabase()
+                    // });
+                    
+                    debugPrint('fim');
+
+
+                  }),
             ],
           ))),
     );
+  }
+
+  Future<void>  refreshList() async {
+    Navigator.pushReplacement(context, PageRouteBuilder(pageBuilder: (a,b,c) => MainPage(),transitionDuration: Duration(seconds: 0)));
   }
 }
 

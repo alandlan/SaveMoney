@@ -19,11 +19,17 @@ class TransactionsService{
     TransactionType type = await _transactionTypeDao.findByName(transaction.type);
     Account account = await _accountDao.findByName(transaction.account);
 
+    debugPrint(account.name);
+    debugPrint(account.balance.toString());
+
     if(type.credit != 1){
-      account.balance = transaction.value * -1;
+      account.balance = account.balance + (transaction.value * -1);
+      transaction.value = transaction.value * -1;
     }else{
       account.balance = account.balance + transaction.value;
     }
+
+    debugPrint(account.balance.toString());
 
     //debugPrint(account.toString());
     //debugPrint(transaction.toString());

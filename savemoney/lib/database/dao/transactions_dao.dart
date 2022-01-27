@@ -22,6 +22,8 @@ class TransactionsDao{
         '$_account VARCHAR(100), '
         '$_dateTransaction DATETIME )';
 
+  static const String deleteTable = 'DELETE TABLE $_tableName';
+
   Future<int> save(Transactions transaction) async {
     final Database db = await getDatabase();
     Map<String, dynamic> transactionMap = _toMap(transaction);

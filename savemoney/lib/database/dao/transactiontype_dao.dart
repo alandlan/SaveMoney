@@ -4,7 +4,7 @@ import 'package:sqflite/sqflite.dart';
 import '../app_database.dart';
 
 class TransactionTypeDao {
-
+ 
   static const String _tableName = 'TransactionType';
   static const String _id = 'id';
   static const String _name = 'name';
@@ -14,6 +14,8 @@ class TransactionTypeDao {
       '$_id INTEGER PRIMARY KEY, '
       '$_name VARCHAR(100), '
       '$_credit BOOLEAN)'; 
+
+  static const String deleteTable = 'DELETE TABLE $_tableName';
 
   Future<int> save(TransactionType type) async {
     final Database db = await getDatabase();

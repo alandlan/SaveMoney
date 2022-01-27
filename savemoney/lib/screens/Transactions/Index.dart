@@ -22,7 +22,7 @@ class _TransactionsIndexState extends State<TransactionsIndex> {
 
     //_dao.save(Transactions(0,"Salário",1000,"Corrente",dateString));
 
-    //_dao.findAll().then((value) => debugPrint(value.toString()));
+    _dao.findAll().then((value) => debugPrint(value.toString()));
 
     return Scaffold(
       appBar: AppBar(title: Text("Transações")),
@@ -78,10 +78,10 @@ class _TransactionsIndexState extends State<TransactionsIndex> {
 
 class _Transaction extends StatelessWidget {
   final Transactions transaction;
-  _Transaction(this.transaction);
-
+  _Transaction(this.transaction);  
   @override
   Widget build(BuildContext context) {
+
     return Card(
       child: ListTile(
         title: Text(transaction.type),
